@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NOYABANGLA | Brutalist Heritage</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -21,12 +21,15 @@
             box-sizing: border-box;
         }
 
-        body {
-            background-color: var(--bg-color);
+        html, body {
+            /* REMOVED background-color from here to prevent hiding z-index:-1 elements */
             color: var(--text-color);
             font-family: 'Space Mono', monospace;
             overflow-x: hidden;
             width: 100%;
+            max-width: 100vw;
+            margin: 0;
+            padding: 0;
         }
 
         /* --- CUSTOM CURSOR --- */
@@ -40,6 +43,11 @@
             transform: translate(-50%, -50%);
             transition: width 0.2s, height 0.2s, background-color 0.2s;
             mix-blend-mode: difference;
+            display: none;
+        }
+        
+        @media (min-width: 768px) {
+            .cursor { display: block; }
         }
         
         .cursor.active {
@@ -107,6 +115,8 @@
             font-family: 'Space Mono', monospace;
             outline: none;
             margin-bottom: 1rem;
+            border-radius: 0;
+            -webkit-appearance: none;
         }
         
         .brutal-input:focus {
@@ -117,11 +127,10 @@
         /* --- PARALLAX WRAPPERS --- */
         .parallax-item {
             will-change: transform;
-            transition: transform 0.1s cubic-bezier(0,0,0.2,1); /* Slight smoothing */
+            transition: transform 0.1s cubic-bezier(0,0,0.2,1);
         }
 
-        /* --- PATTERNS (CSS ONLY CLOTHING) --- */
-        /* 1. Gamcha Check */
+        /* --- PATTERNS --- */
         .pattern-gamcha {
             background-color: #ff2a00;
             background-image: 
@@ -130,7 +139,6 @@
             background-size: 20px 20px;
         }
 
-        /* 2. Abstract Jamdani */
         .pattern-jamdani {
             background-color: #ffffff;
             background-image:  radial-gradient(#000000 2px, transparent 2.5px), radial-gradient(#000000 2px, transparent 2.5px);
@@ -138,7 +146,6 @@
             background-position: 0 0, 15px 15px;
         }
 
-        /* 3. Noise */
         .pattern-noise {
             background-color: #1a1a1a;
             background-image: repeating-linear-gradient(45deg, #2b2b2b 25%, transparent 25%, transparent 75%, #2b2b2b 75%, #2b2b2b), repeating-linear-gradient(45deg, #2b2b2b 25%, #1a1a1a 25%, #1a1a1a 75%, #2b2b2b 75%, #2b2b2b);
@@ -147,8 +154,19 @@
         }
 
         /* --- MARQUEE --- */
+        .marquee-wrapper {
+            width: 100%;
+            overflow: hidden;
+            position: absolute;
+            bottom: 2.5rem;
+            left: 0;
+            transform: rotate(1deg);
+            max-width: 100vw; 
+        }
+
         .marquee-container {
-            width: 100vw;
+            width: 120%;
+            margin-left: -10%;
             overflow: hidden;
             white-space: nowrap;
             background: var(--accent-color);
@@ -170,6 +188,8 @@
 
         /* --- GRID BACKGROUND --- */
         .bg-grid {
+            /* Added background color here so it sits on the fixed layer */
+            background-color: var(--bg-color); 
             background-size: 40px 40px;
             background-image:
                 linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
@@ -179,7 +199,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            z-index: -1;
+            z-index: -1; /* Behind everything */
         }
 
         .bengali-letter-bg {
@@ -187,8 +207,9 @@
             font-family: 'Noto Serif Bengali', serif;
             opacity: 0.1;
             font-weight: 900;
-            z-index: -1;
+            z-index: 0; /* CHANGED from -1 to 0 to sit ON TOP of the grid but BEHIND text (which is z-10) */
             pointer-events: none;
+            user-select: none;
         }
 
         /* --- MODAL & DRAWER --- */
@@ -250,38 +271,40 @@
     <div class="bg-grid"></div>
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-[#e6e6e1] border-b-2 border-black p-4 flex justify-between items-center mix-blend-hard-light">
+    <nav class="fixed w-full z-50 bg-[#e6e6e1] border-b-2 border-black p-4 flex justify-between items-center mix-blend-hard-light top-0 left-0">
         <div class="text-2xl font-bold tracking-tighter hover:text-[#ff2a00] transition-colors">NOYABANGLA.</div>
         <div class="hidden md:flex gap-8 text-sm font-bold">
             <a href="#catalog" class="hover:underline decoration-2">CATALOG</a>
             <a href="#manifesto" class="hover:underline decoration-2">MANIFESTO</a>
             <a href="#" id="cart-btn" onclick="toggleCart()">CART(0)</a>
         </div>
-        <div class="md:hidden font-bold" onclick="toggleCart()">CART</div>
+        <div class="md:hidden font-bold text-sm border-2 border-black px-2 py-1 bg-[#e6e6e1]" onclick="toggleCart()">CART(0)</div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="relative min-h-screen flex flex-col justify-center items-center overflow-hidden pt-20">
-        <div class="bengali-letter-bg text-[20rem] top-10 left-0 parallax-item" data-speed="0.3">ন</div>
-        <div class="bengali-letter-bg text-[20rem] bottom-20 right-10 parallax-item" data-speed="-0.4">ব</div>
-        <div class="bengali-letter-bg text-[30rem] top-[20%] right-[20%] parallax-item" data-speed="0.15">ং</div>
+    <header class="relative min-h-screen flex flex-col justify-center items-center overflow-hidden pt-20 w-full">
+        <!-- Mobile: Scaled down background letters -->
+        <div class="bengali-letter-bg text-[10rem] md:text-[20rem] top-10 left-[-2rem] md:left-0 parallax-item" data-speed="0.3">ন</div>
+        <div class="bengali-letter-bg text-[10rem] md:text-[20rem] bottom-20 right-[-2rem] md:right-10 parallax-item" data-speed="-0.4">ব</div>
+        <div class="bengali-letter-bg text-[15rem] md:text-[30rem] top-[20%] right-[5%] md:right-[20%] parallax-item" data-speed="0.15">ং</div>
 
-        <div class="relative z-10 text-center mix-blend-multiply">
-            <p class="text-sm md:text-xl tracking-[0.5em] mb-4 font-bold parallax-item" data-speed="0.1">EST. 2025 // DHAKA</p>
+        <div class="relative z-10 text-center mix-blend-multiply px-4">
+            <p class="text-xs md:text-xl tracking-[0.3em] md:tracking-[0.5em] mb-4 font-bold parallax-item" data-speed="0.1">EST. 2025 // DHAKA</p>
             <h1 class="text-[15vw] md:text-[12vw] font-black leading-[0.8] mb-4 parallax-item" data-speed="0.2">
                 NOYA<br><span class="outline-text">BANGLA</span>
             </h1>
-            <div class="flex flex-col md:flex-row items-center justify-center gap-4 mt-12 parallax-item" data-speed="-0.15">
-                <div class="bg-black text-[#e6e6e1] p-4 max-w-xs text-left brutal-shadow border border-white">
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 mt-12 parallax-item w-full px-4" data-speed="-0.15">
+                <div class="bg-black text-[#e6e6e1] p-4 w-full max-w-xs text-left brutal-shadow border border-white">
                     <p class="text-xs uppercase mb-2 border-b border-white pb-1">Current Drop</p>
                     <p class="font-bold text-lg">FUSION VOL. 1</p>
                     <p class="text-xs mt-2 opacity-70">Deconstructing the Saree, Rebuilding the Suit.</p>
                 </div>
-                <a href="#catalog" class="brutal-btn bg-[#ff2a00] text-white border-black">EXPLORE COLLECTION &darr;</a>
+                <a href="#catalog" class="brutal-btn bg-[#ff2a00] text-white border-black w-full max-w-xs text-center">EXPLORE COLLECTION &darr;</a>
             </div>
         </div>
 
-        <div class="absolute bottom-10 left-0 w-full rotate-1">
+        <!-- Fixed Marquee Wrapper -->
+        <div class="marquee-wrapper">
             <div class="marquee-container">
                 <div class="marquee-content">
                     NOYABANGLA /// BRUTALIST HERITAGE /// WEAR YOUR ROOTS /// BENGAL X WEST /// NOYABANGLA /// BRUTALIST HERITAGE /// WEAR YOUR ROOTS /// BENGAL X WEST ///
@@ -291,21 +314,21 @@
     </header>
 
     <!-- Manifesto Section -->
-    <section id="manifesto" class="py-32 px-6 border-t-2 border-black relative bg-black text-[#e6e6e1]">
+    <section id="manifesto" class="py-20 md:py-32 px-4 md:px-6 border-t-2 border-black relative bg-black text-[#e6e6e1] overflow-hidden">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
-            <div class="col-span-12 md:col-span-5 relative">
+            <div class="col-span-12 md:col-span-5 relative order-2 md:order-1">
                 <div class="w-full aspect-[3/4] border-2 border-white relative overflow-hidden parallax-item" data-speed="0.05">
                     <div class="absolute inset-0 bg-[#ff2a00] mix-blend-difference opacity-50" style="clip-path: circle(40% at 50% 50%);"></div>
                     <div class="absolute inset-0 bg-white mix-blend-overlay" style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></div>
                     <div class="absolute bottom-4 left-4 text-6xl font-bengali font-bold opacity-50">ঐতিহ্য</div>
                 </div>
             </div>
-            <div class="col-span-12 md:col-span-7">
-                <h2 class="text-6xl md:text-8xl mb-8 font-bold text-transparent stroke-white" style="-webkit-text-stroke: 2px white;">ORIGIN</h2>
-                <div class="space-y-6 text-lg md:text-xl font-light leading-relaxed border-l-4 border-[#ff2a00] pl-6">
+            <div class="col-span-12 md:col-span-7 order-1 md:order-2">
+                <h2 class="text-5xl md:text-8xl mb-8 font-bold text-transparent stroke-white" style="-webkit-text-stroke: 2px white;">ORIGIN</h2>
+                <div class="space-y-6 text-base md:text-xl font-light leading-relaxed border-l-4 border-[#ff2a00] pl-4 md:pl-6">
                     <p class="uppercase font-bold text-[#ff2a00] tracking-widest">The Experiment</p>
                     <p>This is <span class="font-bold">Ramen & Sushi's</span> journey. We began with a simple question: What happens when the chaotic vibrancy of Bengali traditional patterns collides with the rigid structure of Western silhouettes?</p>
-                    <p class="text-2xl italic font-serif">"Threads of Tradition. Cuts of Modernity."</p>
+                    <p class="text-xl md:text-2xl italic font-serif">"Threads of Tradition. Cuts of Modernity."</p>
                     <p>We don't just print patterns. We deconstruct the Jamdani weave, we re-engineer the Gamcha check, and we fuse them onto streetwear.</p>
                 </div>
             </div>
@@ -313,22 +336,20 @@
     </section>
 
     <!-- Catalog Section -->
-    <section id="catalog" class="py-24 px-4 relative">
-        <div class="flex justify-between items-end mb-12 border-b-2 border-black pb-4">
-            <h2 class="text-5xl md:text-7xl font-black">ARCHIVE_01</h2>
-            <span class="text-xl font-bold">[ 2025 ]</span>
+    <section id="catalog" class="py-16 md:py-24 px-4 relative overflow-hidden">
+        <div class="flex flex-col md:flex-row justify-between items-end mb-8 md:mb-12 border-b-2 border-black pb-4">
+            <h2 class="text-4xl md:text-7xl font-black break-words w-full">ARCHIVE_01</h2>
+            <span class="text-xl font-bold mt-2 md:mt-0">[ 2025 ]</span>
         </div>
 
-        <div class="flex gap-4 mb-12 overflow-x-auto pb-4">
-            <button class="brutal-btn text-xs py-2 px-4 active">ALL</button>
-            <button class="brutal-btn text-xs py-2 px-4">TOPS</button>
-            <button class="brutal-btn text-xs py-2 px-4">BOTTOMS</button>
-            <button class="brutal-btn text-xs py-2 px-4">ACCESSORIES</button>
+        <div class="flex gap-4 mb-8 md:mb-12 overflow-x-auto pb-4 touch-pan-x">
+            <button class="brutal-btn text-xs py-2 px-4 active whitespace-nowrap">ALL</button>
+            <button class="brutal-btn text-xs py-2 px-4 whitespace-nowrap">TOPS</button>
+            <button class="brutal-btn text-xs py-2 px-4 whitespace-nowrap">BOTTOMS</button>
+            <button class="brutal-btn text-xs py-2 px-4 whitespace-nowrap">ACCESSORIES</button>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 gap-y-12 md:gap-y-16">
-            
-            <!-- Products (Sample Data) -->
+        <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8 gap-y-8 md:gap-y-16">
             <!-- Product 1 -->
             <div class="group relative block" onmouseenter="cursorScale()" onmouseleave="cursorReset()">
                 <div class="border-2 border-black bg-white aspect-[4/5] relative overflow-hidden brutal-shadow transition-transform group-hover:-translate-y-2">
@@ -338,15 +359,15 @@
                         <span class="bg-white border-2 border-black px-2 md:px-4 py-1 md:py-2 text-xs md:text-base font-bold rotate-[-10deg]">VIEW ITEM</span>
                     </div>
                 </div>
-                <div class="mt-4 flex flex-col md:flex-row justify-between items-start border-t-2 border-black pt-2 gap-2 md:gap-0">
+                <div class="mt-4 flex flex-col justify-between items-start border-t-2 border-black pt-2 gap-1">
                     <div>
-                        <h3 class="text-sm md:text-xl font-bold leading-tight">GAMCHA BLAZER V1</h3>
+                        <h3 class="text-xs md:text-xl font-bold leading-tight">GAMCHA BLAZER V1</h3>
                         <p class="text-[10px] md:text-sm text-gray-600 font-bengali">লাল গামছা সংস্করণ</p>
                         <p class="text-[10px] font-bold text-green-700 mt-1">● IN STOCK</p>
                     </div>
-                    <div class="text-left md:text-right w-full md:w-auto flex justify-between md:block">
+                    <div class="text-left w-full flex flex-col mt-2">
                         <p class="font-bold text-sm md:text-base">৳ 4,500</p>
-                        <button class="text-[10px] md:text-xs underline hover:text-[#ff2a00] font-bold add-to-cart" data-name="Gamcha Blazer" data-price="4500" data-stock="true">ADD +</button>
+                        <button class="text-[10px] md:text-xs underline hover:text-[#ff2a00] font-bold add-to-cart text-left" data-name="Gamcha Blazer" data-price="4500" data-stock="true">ADD +</button>
                     </div>
                 </div>
             </div>
@@ -360,15 +381,15 @@
                         <span class="bg-white border-2 border-black px-2 md:px-4 py-1 md:py-2 text-xs md:text-base font-bold rotate-[-10deg]">VIEW ITEM</span>
                     </div>
                 </div>
-                <div class="mt-4 flex flex-col md:flex-row justify-between items-start border-t-2 border-black pt-2 gap-2 md:gap-0">
+                <div class="mt-4 flex flex-col justify-between items-start border-t-2 border-black pt-2 gap-1">
                     <div>
-                        <h3 class="text-sm md:text-xl font-bold leading-tight">JAMDANI CROP</h3>
+                        <h3 class="text-xs md:text-xl font-bold leading-tight">JAMDANI CROP</h3>
                         <p class="text-[10px] md:text-sm text-gray-600 font-bengali">সাদা মোটিফ</p>
                         <p class="text-[10px] font-bold text-green-700 mt-1">● IN STOCK</p>
                     </div>
-                    <div class="text-left md:text-right w-full md:w-auto flex justify-between md:block">
+                    <div class="text-left w-full flex flex-col mt-2">
                         <p class="font-bold text-sm md:text-base">৳ 3,200</p>
-                        <button class="text-[10px] md:text-xs underline hover:text-[#ff2a00] font-bold add-to-cart" data-name="Jamdani Crop" data-price="3200" data-stock="true">ADD +</button>
+                        <button class="text-[10px] md:text-xs underline hover:text-[#ff2a00] font-bold add-to-cart text-left" data-name="Jamdani Crop" data-price="3200" data-stock="true">ADD +</button>
                     </div>
                 </div>
             </div>
@@ -378,20 +399,20 @@
                 <div class="border-2 border-black bg-white aspect-[4/5] relative overflow-hidden brutal-shadow transition-transform group-hover:-translate-y-2">
                     <div class="absolute inset-0 bg-[#1a1a1a]"></div>
                     <div class="absolute inset-4 pattern-noise border border-white/20"></div>
-                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[#ff2a00] text-6xl md:text-9xl font-black opacity-50 font-bengali">ক</div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[#ff2a00] text-4xl md:text-9xl font-black opacity-50 font-bengali">ক</div>
                      <div class="absolute inset-0 bg-black/60 group-hover:bg-black/80 transition-all duration-300 flex items-center justify-center">
                         <span class="bg-[#ff2a00] text-white border-2 border-black px-2 md:px-4 py-1 md:py-2 text-xs md:text-base font-bold rotate-[5deg]">SOLD OUT</span>
                     </div>
                 </div>
-                <div class="mt-4 flex flex-col md:flex-row justify-between items-start border-t-2 border-black pt-2 gap-2 md:gap-0">
+                <div class="mt-4 flex flex-col justify-between items-start border-t-2 border-black pt-2 gap-1">
                     <div>
-                        <h3 class="text-sm md:text-xl font-bold leading-tight line-through opacity-50">NOYA HOODIE</h3>
+                        <h3 class="text-xs md:text-xl font-bold leading-tight line-through opacity-50">NOYA HOODIE</h3>
                         <p class="text-[10px] md:text-sm text-gray-600">Heavyweight Cotton</p>
                         <p class="text-[10px] font-bold text-[#ff2a00] mt-1">X SOLD OUT</p>
                     </div>
-                    <div class="text-left md:text-right w-full md:w-auto flex justify-between md:block opacity-50">
+                    <div class="text-left w-full flex flex-col mt-2 opacity-50">
                         <p class="font-bold text-sm md:text-base">৳ 2,800</p>
-                        <button class="text-[10px] md:text-xs underline cursor-not-allowed font-bold add-to-cart" data-name="Noya Hoodie" data-price="2800" data-stock="false">ADD +</button>
+                        <button class="text-[10px] md:text-xs underline cursor-not-allowed font-bold add-to-cart text-left" data-name="Noya Hoodie" data-price="2800" data-stock="false">ADD +</button>
                     </div>
                 </div>
             </div>
@@ -401,22 +422,22 @@
                 <div class="border-2 border-black bg-white aspect-[4/5] relative overflow-hidden brutal-shadow transition-transform group-hover:-translate-y-2">
                     <div class="absolute inset-0 bg-[#ff2a00]"></div>
                     <div class="absolute w-full h-full flex items-center justify-center">
-                        <div class="w-20 h-20 md:w-32 md:h-32 border-4 border-black rounded-full"></div>
-                        <div class="absolute w-12 h-12 md:w-20 md:h-20 bg-black rounded-full"></div>
+                        <div class="w-16 h-16 md:w-32 md:h-32 border-4 border-black rounded-full"></div>
+                        <div class="absolute w-8 h-8 md:w-20 md:h-20 bg-black rounded-full"></div>
                     </div>
                      <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
                         <span class="bg-white border-2 border-black px-2 md:px-4 py-1 md:py-2 text-xs md:text-base font-bold rotate-[-10deg]">VIEW ITEM</span>
                     </div>
                 </div>
-                <div class="mt-4 flex flex-col md:flex-row justify-between items-start border-t-2 border-black pt-2 gap-2 md:gap-0">
+                <div class="mt-4 flex flex-col justify-between items-start border-t-2 border-black pt-2 gap-1">
                     <div>
-                        <h3 class="text-sm md:text-xl font-bold leading-tight">TIGER EYE TOTE</h3>
+                        <h3 class="text-xs md:text-xl font-bold leading-tight">TIGER EYE TOTE</h3>
                         <p class="text-[10px] md:text-sm text-gray-600">Canvas Structure</p>
                         <p class="text-[10px] font-bold text-green-700 mt-1">● IN STOCK</p>
                     </div>
-                    <div class="text-left md:text-right w-full md:w-auto flex justify-between md:block">
+                    <div class="text-left w-full flex flex-col mt-2">
                         <p class="font-bold text-sm md:text-base">৳ 1,200</p>
-                        <button class="text-[10px] md:text-xs underline hover:text-[#ff2a00] font-bold add-to-cart" data-name="Tiger Eye Tote" data-price="1200" data-stock="true">ADD +</button>
+                        <button class="text-[10px] md:text-xs underline hover:text-[#ff2a00] font-bold add-to-cart text-left" data-name="Tiger Eye Tote" data-price="1200" data-stock="true">ADD +</button>
                     </div>
                 </div>
             </div>
@@ -427,20 +448,20 @@
                     <div class="h-1/3 bg-black w-full border-b-2 border-white"></div>
                     <div class="h-1/3 bg-[#ff2a00] w-full border-b-2 border-white"></div>
                     <div class="h-1/3 bg-[#e6e6e1] w-full"></div>
-                    <div class="absolute inset-0 flex items-center justify-center font-bengali text-4xl md:text-6xl font-bold text-white mix-blend-difference">বাংলা</div>
+                    <div class="absolute inset-0 flex items-center justify-center font-bengali text-2xl md:text-6xl font-bold text-white mix-blend-difference">বাংলা</div>
                      <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
                         <span class="bg-white border-2 border-black px-2 md:px-4 py-1 md:py-2 text-xs md:text-base font-bold rotate-[-10deg]">VIEW ITEM</span>
                     </div>
                 </div>
-                <div class="mt-4 flex flex-col md:flex-row justify-between items-start border-t-2 border-black pt-2 gap-2 md:gap-0">
+                <div class="mt-4 flex flex-col justify-between items-start border-t-2 border-black pt-2 gap-1">
                     <div>
-                        <h3 class="text-sm md:text-xl font-bold leading-tight">THE FLAG SCARF</h3>
+                        <h3 class="text-xs md:text-xl font-bold leading-tight">THE FLAG SCARF</h3>
                         <p class="text-[10px] md:text-sm text-gray-600">Silk Blend</p>
                         <p class="text-[10px] font-bold text-green-700 mt-1">● IN STOCK</p>
                     </div>
-                    <div class="text-left md:text-right w-full md:w-auto flex justify-between md:block">
+                    <div class="text-left w-full flex flex-col mt-2">
                         <p class="font-bold text-sm md:text-base">৳ 1,800</p>
-                        <button class="text-[10px] md:text-xs underline hover:text-[#ff2a00] font-bold add-to-cart" data-name="Flag Scarf" data-price="1800" data-stock="true">ADD +</button>
+                        <button class="text-[10px] md:text-xs underline hover:text-[#ff2a00] font-bold add-to-cart text-left" data-name="Flag Scarf" data-price="1800" data-stock="true">ADD +</button>
                     </div>
                 </div>
             </div>
@@ -450,15 +471,15 @@
 
     <!-- SIZE SELECTION MODAL -->
     <div id="product-modal" class="modal-overlay">
-        <div class="bg-[#e6e6e1] p-6 md:p-8 max-w-md w-11/12 brutal-border brutal-shadow relative">
+        <div class="bg-[#e6e6e1] p-4 md:p-8 max-w-md w-11/12 brutal-border brutal-shadow relative">
             <div class="flex justify-between items-center mb-6 border-b-2 border-black pb-2">
-                <h3 class="text-2xl font-black" id="modal-item-title">ITEM_NAME</h3>
+                <h3 class="text-lg md:text-2xl font-black truncate pr-4" id="modal-item-title">ITEM_NAME</h3>
                 <button onclick="closeModal()" class="text-2xl font-bold hover:text-[#ff2a00]">&times;</button>
             </div>
 
-            <div class="mb-6 border-2 border-black p-4 bg-white/50">
+            <div class="mb-6 border-2 border-black p-2 md:p-4 bg-white/50">
                 <p class="text-xs font-bold mb-2 underline">SIZE REFERENCE [CM]</p>
-                <div class="grid grid-cols-4 gap-2 text-xs text-center font-bold">
+                <div class="grid grid-cols-4 gap-1 md:gap-2 text-[10px] md:text-xs text-center font-bold">
                     <div class="bg-black text-white p-1">SIZE</div>
                     <div class="bg-black text-white p-1">CHEST</div>
                     <div class="bg-black text-white p-1">LEN</div>
@@ -481,8 +502,8 @@
                     </select>
                 </div>
                 <div class="flex gap-4 mt-8">
-                    <button type="button" onclick="closeModal()" class="flex-1 border-2 border-black py-3 font-bold hover:bg-black hover:text-white transition-colors">CANCEL</button>
-                    <button type="submit" class="flex-1 bg-[#ff2a00] border-2 border-black text-white py-3 font-bold hover:bg-black hover:text-white transition-colors brutal-shadow">ADD TO CART</button>
+                    <button type="button" onclick="closeModal()" class="flex-1 border-2 border-black py-3 font-bold hover:bg-black hover:text-white transition-colors text-xs md:text-base">CANCEL</button>
+                    <button type="submit" class="flex-1 bg-[#ff2a00] border-2 border-black text-white py-3 font-bold hover:bg-black hover:text-white transition-colors brutal-shadow text-xs md:text-base">ADD TO CART</button>
                 </div>
             </form>
         </div>
@@ -491,7 +512,7 @@
     <!-- CART DRAWER -->
     <div id="cart-drawer" class="cart-drawer">
         <div class="p-4 border-b-2 border-black bg-[#e6e6e1] flex justify-between items-center">
-            <h2 class="text-2xl font-black">YOUR STASH</h2>
+            <h2 class="text-xl md:text-2xl font-black">YOUR STASH</h2>
             <button onclick="toggleCart()" class="text-2xl font-bold hover:text-[#ff2a00]">&times;</button>
         </div>
         
@@ -521,15 +542,15 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-[#ff2a00] text-black border-t-2 border-black py-20 px-4 relative overflow-hidden">
+    <footer class="bg-[#ff2a00] text-black border-t-2 border-black py-10 md:py-20 px-4 relative overflow-hidden">
         <div class="max-w-4xl mx-auto text-center relative z-10">
-            <h2 class="text-4xl md:text-6xl font-black mb-8">JOIN THE CHAOS</h2>
+            <h2 class="text-3xl md:text-6xl font-black mb-8">JOIN THE CHAOS</h2>
             <p class="mb-8 font-bold font-serif text-xl">Subscribe for exclusive drops.</p>
             <div class="flex flex-col md:flex-row gap-0 border-2 border-black max-w-lg mx-auto brutal-shadow bg-white">
-                <input type="email" placeholder="ENTER EMAIL" class="flex-1 bg-transparent px-4 py-4 outline-none text-black placeholder-gray-500 font-mono">
-                <button class="bg-black text-white px-8 py-4 font-bold hover:bg-[#e6e6e1] hover:text-black transition-colors">SUBMIT</button>
+                <input type="email" placeholder="ENTER EMAIL" class="flex-1 bg-transparent px-4 py-4 outline-none text-black placeholder-gray-500 font-mono w-full">
+                <button class="bg-black text-white px-8 py-4 font-bold hover:bg-[#e6e6e1] hover:text-black transition-colors w-full md:w-auto">SUBMIT</button>
             </div>
-             <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-sm text-left border-t border-black pt-8">
+             <div class="mt-10 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 text-sm text-left border-t border-black pt-8">
                 <div><h4 class="font-bold mb-2 underline">SOCIALS</h4><ul><li><a href="#" class="hover:text-white">Instagram</a></li></ul></div>
                 <div class="col-span-2"><h4 class="font-bold mb-2 underline">CONTACT</h4><p>dhaka@noyabangla.com</p></div>
             </div>
@@ -543,11 +564,16 @@
     </div>
 
     <script>
-        // --- CUSTOM CURSOR ---
+        // --- CUSTOM CURSOR (Disabled on Touch) ---
         const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
-        function cursorScale() { cursor.classList.add('active'); }
-        function cursorReset() { cursor.classList.remove('active'); }
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        
+        if (!isTouchDevice) {
+            document.addEventListener('mousemove', (e) => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
+        }
+
+        function cursorScale() { if(!isTouchDevice) cursor.classList.add('active'); }
+        function cursorReset() { if(!isTouchDevice) cursor.classList.remove('active'); }
 
         // --- PARALLAX ---
         const parallaxTargets = document.querySelectorAll('.parallax-item');
@@ -607,9 +633,10 @@
 
         // 3. Update Cart UI (Count & List)
         function updateCartUI() {
-            // Update Counter
+            // Update Counter (Desktop & Mobile)
+            const countText = `CART(${cart.length})`;
             document.querySelectorAll('#cart-btn, .md\\:hidden').forEach(el => {
-                if(el.id === 'cart-btn') el.innerText = `CART(${cart.length})`;
+                el.innerText = countText;
             });
 
             // Update Drawer List
@@ -700,16 +727,12 @@ _Please confirm availability and payment options._`;
             
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             const baseUrl = isMobile ? 'https://api.whatsapp.com/send' : 'https://web.whatsapp.com/send';
-            const url = `${baseUrl}?phone=${phoneNumber}&text=${message}`; // No encodeURIComponent for message body part if using template literals carefully, but usually safer to encode
             
             // Safer encoding for the whole block
             const safeUrl = `${baseUrl}?phone=${phoneNumber}&text=${encodeURIComponent(message.replace(/%0A/g, '\n'))}`;
 
             window.open(safeUrl, '_blank');
             showToast("REDIRECTING...");
-            
-            // Optional: Clear cart after order?
-            // cart = []; updateCartUI(); toggleCart();
         }
 
         function showToast(msg, isError = false) {
