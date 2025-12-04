@@ -262,27 +262,21 @@
         /* --- CATEGORY CARDS --- */
         .category-card {
             border: 2px solid white;
-            /* padding: 1.5rem;  Removed padding */
             text-align: center;
             transition: all 0.3s;
             cursor: pointer;
             background: black;
             color: white;
-            /* display: flex; Removed flex */
-            /* flex-direction: column; Removed flex */
-            /* justify-content: space-between; Removed flex */
             height: 100%;
-            position: relative; /* Added for absolute positioning of text */
-            overflow: hidden; /* To contain the image */
+            position: relative; 
+            overflow: hidden; 
         }
         .category-card:hover {
-            background: var(--accent-color); /* Keep accent color background on hover, though image covers it */
-            border-color: var(--accent-color); /* Change border to accent on hover */
+            background: var(--accent-color);
+            border-color: var(--accent-color);
             transform: scale(1.02);
-            /* color: black; Removed text color inversion */
         }
         
-        /* Placeholder Image Style - Brutalist X Pattern */
         .dummy-image {
             width: 100%;
             height: 100%;
@@ -295,9 +289,22 @@
             border: 1px solid #333;
         }
         .category-card:hover .dummy-image {
-            /* background-color: white; Removed hover inversion */
-            /* border-color: black; Removed hover inversion */
-            opacity: 0.8; /* Slight opacity change on hover */
+            opacity: 0.8;
+        }
+
+        /* --- SIZE TABLE STYLES --- */
+        .size-table-row {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .size-table-row:hover {
+            background-color: #e6e6e1;
+            color: black;
+        }
+        .size-table-row.selected {
+            background-color: var(--accent-color);
+            color: white;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -314,8 +321,7 @@
         <div class="text-2xl font-bold tracking-tighter hover:text-[#ff2a00] transition-colors">NOYABANGLA.</div>
         <div class="hidden md:flex gap-8 text-sm font-bold">
             <a href="#catalog" class="hover:underline decoration-2">CATALOG</a>
-            <!-- Manifesto Hidden for now -->
-            <!-- <button onclick="openManifesto()" class="hover:underline decoration-2 uppercase">Manifesto</button> -->
+            <!-- Manifesto Hidden -->
             <a href="#" id="cart-btn" onclick="toggleCart()">CART(0)</a>
         </div>
         <div class="md:hidden font-bold text-sm border-2 border-black px-2 py-1 bg-[#e6e6e1]" onclick="toggleCart()">CART(0)</div>
@@ -328,7 +334,6 @@
         <div class="bengali-letter-bg text-[10rem] md:text-[20rem] bottom-20 right-[-2rem] md:right-10 parallax-item" data-speed="-0.4">ব</div>
         <div class="bengali-letter-bg text-[15rem] md:text-[30rem] top-[20%] right-[5%] md:right-[20%] parallax-item" data-speed="0.15">ং</div>
         
-        <!-- NEW ADDED LETTERS -->
         <div class="bengali-letter-bg text-[8rem] md:text-[16rem] top-[5%] left-[40%] parallax-item opacity-5" data-speed="0.05">ক</div>
         <div class="bengali-letter-bg text-[12rem] md:text-[24rem] bottom-[5%] left-[10%] parallax-item opacity-5" data-speed="-0.2">র</div>
         <div class="bengali-letter-bg text-[6rem] md:text-[12rem] top-[60%] left-[-5%] parallax-item" data-speed="0.25">ল</div>
@@ -341,13 +346,10 @@
                 NOYA<br><span class="outline-text">BANGLA</span>
             </h1>
             <div class="flex flex-col md:flex-row items-center justify-center gap-4 mt-12 parallax-item w-full px-4" data-speed="-0.15">
-                <!-- Manifesto Button Hidden -->
-                <!-- <button onclick="openManifesto()" class="brutal-btn bg-black text-[#e6e6e1] border-white w-full max-w-xs text-center brutal-shadow">READ MANIFESTO</button> -->
                 <a href="#catalog" class="brutal-btn bg-[#ff2a00] text-white border-black w-full max-w-xs text-center">EXPLORE COLLECTION &darr;</a>
             </div>
         </div>
 
-        <!-- Fixed Marquee Wrapper -->
         <div class="marquee-wrapper">
             <div class="marquee-container">
                 <div class="marquee-content">
@@ -365,12 +367,10 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Tops -->
                 <div class="category-card" onclick="openCategoryModal('tops', 'ধড়')">
-                    <!-- Dummy Image Container: Aspect Ratio 3:4 (Portrait) -->
                     <div class="w-full aspect-[3/4] relative">
                         <div class="dummy-image absolute inset-0">
                             <span class="font-mono text-xs opacity-50">IMG_TOPS.JPG</span>
                         </div>
-                        <!-- Text Over Image -->
                         <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-4 bg-black/30 hover:bg-black/40 transition-colors">
                             <span class="block text-5xl md:text-7xl font-bengali font-bold mb-2 text-white">ধড়</span>
                             <span class="block text-xs font-bold uppercase tracking-[0.3em] border-t border-white pt-2 w-1/2 mx-auto text-white">[ TOPS ]</span>
@@ -380,12 +380,10 @@
 
                 <!-- Bottoms -->
                 <div class="category-card" onclick="openCategoryModal('bottoms', 'নীচে')">
-                    <!-- Dummy Image Container -->
                     <div class="w-full aspect-[3/4] relative">
                         <div class="dummy-image absolute inset-0">
                             <span class="font-mono text-xs opacity-50">IMG_BOTTOMS.JPG</span>
                         </div>
-                        <!-- Text Over Image -->
                         <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-4 bg-black/30 hover:bg-black/40 transition-colors">
                             <span class="block text-5xl md:text-7xl font-bengali font-bold mb-2 text-white">নীচে</span>
                             <span class="block text-xs font-bold uppercase tracking-[0.3em] border-t border-white pt-2 w-1/2 mx-auto text-white">[ BOTTOMS ]</span>
@@ -395,12 +393,10 @@
 
                 <!-- Accessories -->
                 <div class="category-card" onclick="openCategoryModal('accessories', 'আনুষাঙ্গিক')">
-                    <!-- Dummy Image Container -->
                     <div class="w-full aspect-[3/4] relative">
                         <div class="dummy-image absolute inset-0">
                             <span class="font-mono text-xs opacity-50">IMG_ACC.JPG</span>
                         </div>
-                        <!-- Text Over Image -->
                         <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-4 bg-black/30 hover:bg-black/40 transition-colors">
                             <span class="block text-5xl md:text-7xl font-bengali font-bold mb-2 text-white">আনুষাঙ্গিক</span>
                             <span class="block text-xs font-bold uppercase tracking-[0.3em] border-t border-white pt-2 w-1/2 mx-auto text-white">[ ACCESSORIES ]</span>
@@ -425,37 +421,10 @@
             <button class="brutal-btn text-xs py-2 px-4 whitespace-nowrap" onclick="filterCatalog('accessories')">ACCESSORIES</button>
         </div>
 
-        <!-- Grid Container for Dynamic Products -->
         <div id="product-grid" class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8 gap-y-8 md:gap-y-16">
             <!-- Populated by JS -->
         </div>
     </section>
-
-    <!-- MANIFESTO MODAL (Hidden trigger but code preserved) -->
-    <div id="manifesto-modal" class="modal-overlay overflow-y-auto">
-        <div class="bg-black text-[#e6e6e1] w-full h-full md:h-auto md:w-[90vw] md:max-h-[90vh] md:border-2 md:border-white relative flex flex-col overflow-y-auto">
-            <button onclick="closeManifesto()" class="absolute top-4 right-4 text-4xl text-white hover:text-[#ff2a00] z-50">&times;</button>
-            
-            <div class="p-6 md:p-12">
-                <!-- Origin Story -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 border-b-2 border-white pb-12">
-                     <div>
-                        <h2 class="text-4xl md:text-6xl font-black mb-4 text-transparent stroke-white" style="-webkit-text-stroke: 1px white;">ORIGIN</h2>
-                        <div class="w-full aspect-video bg-[#ff2a00] mb-4 relative overflow-hidden">
-                             <div class="absolute inset-0 bg-white mix-blend-overlay" style="clip-path: polygon(50% 0%, 0% 100%, 100% 100%);"></div>
-                             <div class="absolute bottom-2 left-2 text-4xl font-bengali font-bold opacity-50 text-black">ঐতিহ্য</div>
-                        </div>
-                     </div>
-                     <div class="space-y-4 font-light text-sm md:text-lg">
-                        <p class="uppercase font-bold text-[#ff2a00]">The Experiment</p>
-                        <p>This is <span class="font-bold">Ramen & Sushi's</span> journey. We began with a simple question: What happens when the chaotic vibrancy of Bengali traditional patterns collides with the rigid structure of Western silhouettes?</p>
-                        <p class="italic text-xl">"Threads of Tradition. Cuts of Modernity."</p>
-                        <p>We don't just print patterns. We deconstruct the Jamdani weave, we re-engineer the Gamcha check, and we fuse them onto streetwear.</p>
-                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- CATEGORY FILTER MODAL -->
     <div id="category-modal" class="modal-overlay">
@@ -476,31 +445,73 @@
         </div>
     </div>
 
-    <!-- PRODUCT DETAIL MODAL (SIZE SELECTION) -->
+    <!-- PRODUCT DETAIL MODAL (NEW INTERACTIVE SIZING) -->
     <div id="product-modal" class="modal-overlay">
-        <div class="bg-[#e6e6e1] p-4 md:p-8 max-w-md w-11/12 brutal-border brutal-shadow relative">
-            <div class="flex justify-between items-center mb-6 border-b-2 border-black pb-2">
-                <h3 class="text-lg md:text-2xl font-black truncate pr-4" id="modal-item-title">ITEM_NAME</h3>
-                <button onclick="closeProductModal()" class="text-2xl font-bold hover:text-[#ff2a00]">&times;</button>
+        <div class="bg-[#e6e6e1] p-4 md:p-8 max-w-lg w-11/12 brutal-border brutal-shadow relative max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-start mb-4 border-b-2 border-black pb-2">
+                <div>
+                    <h3 class="text-xl md:text-2xl font-black uppercase leading-none" id="modal-item-title">ITEM_NAME</h3>
+                    <p class="text-sm font-bold mt-1" id="modal-item-price-display">৳ 000</p>
+                </div>
+                <button onclick="closeProductModal()" class="text-2xl font-bold hover:text-[#ff2a00] leading-none">&times;</button>
             </div>
-            <div class="mb-6 border-2 border-black p-2 md:p-4 bg-white/50">
-                <p class="text-xs font-bold mb-2 underline">SIZE REFERENCE [CM]</p>
-                <div class="grid grid-cols-4 gap-1 md:gap-2 text-[10px] md:text-xs text-center font-bold">
-                    <div class="bg-black text-white p-1">SIZE</div><div class="bg-black text-white p-1">CHEST</div><div class="bg-black text-white p-1">LEN</div><div class="bg-black text-white p-1">SLV</div>
-                    <div class="border border-black p-1">S</div><div class="border border-black p-1">96</div><div class="border border-black p-1">68</div><div class="border border-black p-1">22</div>
-                    <div class="border border-black p-1">M</div><div class="border border-black p-1">102</div><div class="border border-black p-1">70</div><div class="border border-black p-1">23</div>
-                    <div class="border border-black p-1">L</div><div class="border border-black p-1">108</div><div class="border border-black p-1">72</div><div class="border border-black p-1">24</div>
+
+            <!-- Description -->
+            <div class="mb-6 text-sm font-mono leading-relaxed opacity-80" id="modal-item-desc">
+                Loading...
+            </div>
+
+            <!-- TAB SWITCHER -->
+            <div class="flex border-2 border-black mb-4">
+                <button id="tab-male" class="flex-1 py-3 font-bold bg-black text-white text-sm md:text-base uppercase transition-colors" onclick="switchSizeTab('male')">MALE CHART</button>
+                <button id="tab-female" class="flex-1 py-3 font-bold bg-[#e6e6e1] text-black hover:bg-gray-200 text-sm md:text-base uppercase transition-colors" onclick="switchSizeTab('female')">FEMALE CHART</button>
+            </div>
+
+            <!-- SIZE TABLES (Scrollable) -->
+            <div class="border-2 border-black mb-6 bg-white overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs md:text-sm text-center font-bold">
+                        <thead class="bg-black text-white">
+                            <tr>
+                                <th class="p-2 border-r border-white">SIZE</th>
+                                <th class="p-2 border-r border-white">CHEST</th>
+                                <th class="p-2 border-r border-white">LENGTH</th>
+                                <th class="p-2">SLEEVE</th>
+                            </tr>
+                        </thead>
+                        <tbody id="size-table-body">
+                            <!-- Rows injected via JS -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
+            <!-- CUSTOM INPUTS -->
             <form onsubmit="addToCartFromModal(event)">
                 <input type="hidden" id="modal-item-price">
-                <div class="mb-4">
-                    <label class="block text-xs font-bold mb-1 uppercase">Select Size</label>
-                    <select id="input-size" class="brutal-input bg-white">
-                        <option>SMALL</option><option>MEDIUM</option><option>LARGE</option><option>X-LARGE</option>
-                    </select>
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="text-xs font-bold uppercase underline">YOUR MEASUREMENTS (IN)</label>
+                        <button type="button" onclick="clearMeasurements()" class="text-[10px] font-bold text-[#ff2a00] hover:underline">CLEAR / CUSTOM</button>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 md:gap-4">
+                        <div>
+                            <span class="text-[10px] font-bold block mb-1">CHEST</span>
+                            <input id="input-chest" type="text" class="brutal-input bg-white text-center py-2 mb-0" placeholder="00" required oninput="deselectRows()">
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold block mb-1">LENGTH</span>
+                            <input id="input-length" type="text" class="brutal-input bg-white text-center py-2 mb-0" placeholder="00" required oninput="deselectRows()">
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold block mb-1">SLEEVE</span>
+                            <input id="input-sleeve" type="text" class="brutal-input bg-white text-center py-2 mb-0" placeholder="00" required oninput="deselectRows()">
+                        </div>
+                    </div>
+                    <p class="text-[10px] opacity-50 mt-2 text-center" id="selected-size-label">Select a size above or type custom values.</p>
                 </div>
-                <div class="flex gap-4 mt-8">
+
+                <div class="flex gap-4 mt-4">
                     <button type="button" onclick="closeProductModal()" class="flex-1 border-2 border-black py-3 font-bold hover:bg-black hover:text-white transition-colors text-xs md:text-base">CANCEL</button>
                     <button type="submit" class="flex-1 bg-[#ff2a00] border-2 border-black text-white py-3 font-bold hover:bg-black hover:text-white transition-colors brutal-shadow text-xs md:text-base">ADD TO CART</button>
                 </div>
@@ -549,93 +560,35 @@
     </div>
 
     <script>
-        // --- PRODUCT DATA (Source of Truth) ---
+        // --- PRODUCT DATA ---
         const products = [
-            {
-                id: 1,
-                name: "GAMCHA BLAZER V1",
-                bnSub: "লাল গামছা সংস্করণ",
-                price: 4500,
-                category: "tops",
-                inStock: true,
-                visualClass: "pattern-gamcha",
-                visualExtra: "",
-                bgClass: "opacity-90",
-                badge: "BESTSELLER"
-            },
-            {
-                id: 2,
-                name: "JAMDANI CROP",
-                bnSub: "সাদা মোটিফ",
-                price: 3200,
-                category: "tops",
-                inStock: true,
-                visualClass: "pattern-jamdani",
-                visualExtra: '<div class="absolute bottom-0 w-full h-1/2 bg-black mix-blend-multiply clip-path-polygon"></div>',
-                bgClass: "",
-                badge: ""
-            },
-            {
-                id: 3,
-                name: "NOYA HOODIE",
-                bnSub: "Heavyweight Cotton",
-                price: 2800,
-                category: "tops",
-                inStock: false,
-                visualClass: "",
-                visualExtra: '<div class="absolute inset-0 bg-[#1a1a1a]"></div><div class="absolute inset-4 pattern-noise border border-white/20"></div><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[#ff2a00] text-4xl md:text-9xl font-black opacity-50 font-bengali">ক</div>',
-                bgClass: "",
-                badge: ""
-            },
-            {
-                id: 4,
-                name: "TIGER EYE TOTE",
-                bnSub: "Canvas Structure",
-                price: 1200,
-                category: "accessories",
-                inStock: true,
-                visualClass: "",
-                visualExtra: '<div class="absolute inset-0 bg-[#ff2a00]"></div><div class="absolute w-full h-full flex items-center justify-center"><div class="w-16 h-16 md:w-32 md:h-32 border-4 border-black rounded-full"></div><div class="absolute w-8 h-8 md:w-20 md:h-20 bg-black rounded-full"></div></div>',
-                bgClass: "",
-                badge: ""
-            },
-            {
-                id: 5,
-                name: "GAMCHA BLAZER V2",
-                bnSub: "সবুজ সংস্করণ",
-                price: 4500,
-                category: "tops",
-                inStock: false,
-                visualClass: "pattern-gamcha",
-                visualExtra: "",
-                bgClass: "opacity-90 filter hue-rotate-90",
-                badge: ""
-            },
-            {
-                id: 6,
-                name: "THE FLAG SCARF",
-                bnSub: "Silk Blend",
-                price: 1800,
-                category: "accessories",
-                inStock: true,
-                visualClass: "",
-                visualExtra: '<div class="absolute inset-0 flex flex-col"><div class="h-1/3 bg-black w-full border-b-2 border-white"></div><div class="h-1/3 bg-[#ff2a00] w-full border-b-2 border-white"></div><div class="h-1/3 bg-[#e6e6e1] w-full"></div></div><div class="absolute inset-0 flex items-center justify-center font-bengali text-2xl md:text-6xl font-bold text-white mix-blend-difference">বাংলা</div>',
-                bgClass: "",
-                badge: ""
-            },
-             {
-                id: 7,
-                name: "LUNGI TROUSERS",
-                bnSub: "Street Check",
-                price: 2500,
-                category: "bottoms",
-                inStock: true,
-                visualClass: "pattern-gamcha",
-                visualExtra: "",
-                bgClass: "filter hue-rotate-180",
-                badge: "NEW"
-            }
+            { id: 1, name: "GAMCHA BLAZER V1", bnSub: "লাল গামছা সংস্করণ", price: 4500, category: "tops", inStock: true, description: "A structured blazer constructed from hand-loomed red Gamcha fabric. Features reinforced stitching.", visualClass: "pattern-gamcha", visualExtra: "", bgClass: "opacity-90", badge: "BESTSELLER" },
+            { id: 2, name: "JAMDANI CROP", bnSub: "সাদা মোটিফ", price: 3200, category: "tops", inStock: true, description: "Traditional Jamdani weave reimagined as a modern crop top. Breathable cotton base.", visualClass: "pattern-jamdani", visualExtra: '<div class="absolute bottom-0 w-full h-1/2 bg-black mix-blend-multiply clip-path-polygon"></div>', bgClass: "", badge: "" },
+            { id: 3, name: "NOYA HOODIE", bnSub: "Heavyweight Cotton", price: 2800, category: "tops", inStock: false, description: "400GSM heavyweight cotton hoodie. Puff-print Bengali typography.", visualClass: "", visualExtra: '<div class="absolute inset-0 bg-[#1a1a1a]"></div><div class="absolute inset-4 pattern-noise border border-white/20"></div><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[#ff2a00] text-4xl md:text-9xl font-black opacity-50 font-bengali">ক</div>', bgClass: "", badge: "" },
+            { id: 4, name: "TIGER EYE TOTE", bnSub: "Canvas Structure", price: 1200, category: "accessories", inStock: true, description: "Heavy canvas tote bag with abstract 'Tiger Eye' graphic.", visualClass: "", visualExtra: '<div class="absolute inset-0 bg-[#ff2a00]"></div><div class="absolute w-full h-full flex items-center justify-center"><div class="w-16 h-16 md:w-32 md:h-32 border-4 border-black rounded-full"></div><div class="absolute w-8 h-8 md:w-20 md:h-20 bg-black rounded-full"></div></div>', bgClass: "", badge: "" },
+            { id: 5, name: "GAMCHA BLAZER V2", bnSub: "সবুজ সংস্করণ", price: 4500, category: "tops", inStock: false, description: "The green iteration of our signature Gamcha Blazer. Earthy tones meet sharp tailoring.", visualClass: "pattern-gamcha", visualExtra: "", bgClass: "opacity-90 filter hue-rotate-90", badge: "" },
+            { id: 6, name: "THE FLAG SCARF", bnSub: "Silk Blend", price: 1800, category: "accessories", inStock: true, description: "Silk-blend scarf featuring deconstructed flag elements.", visualClass: "", visualExtra: '<div class="absolute inset-0 flex flex-col"><div class="h-1/3 bg-black w-full border-b-2 border-white"></div><div class="h-1/3 bg-[#ff2a00] w-full border-b-2 border-white"></div><div class="h-1/3 bg-[#e6e6e1] w-full"></div></div><div class="absolute inset-0 flex items-center justify-center font-bengali text-2xl md:text-6xl font-bold text-white mix-blend-difference">বাংলা</div>', bgClass: "", badge: "" },
+            { id: 7, name: "LUNGI TROUSERS", bnSub: "Street Check", price: 2500, category: "bottoms", inStock: true, description: "Relaxed fit trousers made from authentic Lungi fabric.", visualClass: "pattern-gamcha", visualExtra: "", bgClass: "filter hue-rotate-180", badge: "NEW" }
         ];
+
+        // --- SIZE DATA ---
+        const sizeCharts = {
+            male: [
+                { label: "S", chest: "38", length: "28", sleeve: "23" },
+                { label: "M", chest: "40", length: "29", sleeve: "24" },
+                { label: "L", chest: "42", length: "30", sleeve: "25" },
+                { label: "XL", chest: "44", length: "31", sleeve: "26" }
+            ],
+            female: [
+                { label: "S", chest: "34", length: "24", sleeve: "21" },
+                { label: "M", chest: "36", length: "25", sleeve: "22" },
+                { label: "L", chest: "38", length: "26", sleeve: "22.5" },
+                { label: "XL", chest: "40", length: "27", sleeve: "23" }
+            ]
+        };
+
+        let currentGender = 'male';
+        let currentSizeSelection = null; // Store selected size e.g. "MALE - M"
 
         // --- RENDER FUNCTIONS ---
         function renderCardHTML(product) {
@@ -644,7 +597,7 @@
                 : `<p class="text-[10px] font-bold text-[#ff2a00] mt-1">X SOLD OUT</p>`;
             
             const btnHTML = product.inStock
-                ? `<button class="text-[10px] md:text-xs underline hover:text-[#ff2a00] font-bold add-to-cart text-left" onclick="triggerAdd(${product.id})">ADD +</button>`
+                ? `<button class="text-[10px] md:text-xs underline hover:text-[#ff2a00] font-bold add-to-cart text-left">ADD +</button>`
                 : `<button class="text-[10px] md:text-xs underline cursor-not-allowed font-bold text-left opacity-50">SOLD OUT</button>`;
 
             const soldOutOverlay = !product.inStock 
@@ -652,11 +605,10 @@
                 : `<div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none"><span class="bg-white border-2 border-black px-2 md:px-4 py-1 md:py-2 text-xs md:text-base font-bold rotate-[-10deg]">VIEW ITEM</span></div>`;
             
             const badgeHTML = product.badge ? `<div class="absolute top-4 left-4 bg-black text-white text-[10px] md:text-xs px-2 py-1 font-bold z-10">${product.badge}</div>` : '';
-
             const titleClass = !product.inStock ? "line-through opacity-50" : "";
             
             return `
-            <div class="group relative block" onmouseenter="cursorScale()" onmouseleave="cursorReset()">
+            <div class="group relative block cursor-pointer" onclick="triggerAdd(${product.id})" onmouseenter="cursorScale()" onmouseleave="cursorReset()">
                 <div class="border-2 border-black bg-white aspect-[4/5] relative overflow-hidden brutal-shadow transition-transform group-hover:-translate-y-2">
                     <div class="absolute inset-4 ${product.visualClass} border-2 border-black ${product.bgClass}"></div>
                     ${product.visualExtra}
@@ -680,103 +632,150 @@
         function renderCatalog(filter = 'all') {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
-            
             const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
-            
-            if(filtered.length === 0) {
-                 grid.innerHTML = '<div class="col-span-full text-center py-20 font-bold opacity-50">NO ITEMS IN THIS ARCHIVE YET.</div>';
-                 return;
-            }
-
-            filtered.forEach(p => {
-                grid.innerHTML += renderCardHTML(p);
-            });
+            if(filtered.length === 0) { grid.innerHTML = '<div class="col-span-full text-center py-20 font-bold opacity-50">NO ITEMS IN THIS ARCHIVE YET.</div>'; return; }
+            filtered.forEach(p => grid.innerHTML += renderCardHTML(p));
         }
-
-        // Initial Render
         renderCatalog();
 
         // --- FILTER & MODAL LOGIC ---
-        function filterCatalog(category) {
-            renderCatalog(category);
-        }
-
-        function openManifesto() {
-            document.getElementById('manifesto-modal').classList.add('open');
-            // Close cart if open
-            document.getElementById('cart-drawer').classList.remove('open');
-        }
-
-        function closeManifesto() {
-            document.getElementById('manifesto-modal').classList.remove('open');
-        }
-
+        function filterCatalog(category) { renderCatalog(category); }
         function openCategoryModal(category, bnTitle) {
             document.getElementById('cat-modal-title-bn').innerText = bnTitle;
             document.getElementById('cat-modal-title-en').innerText = category;
-            
             const grid = document.getElementById('category-modal-grid');
             grid.innerHTML = '';
-            
             const filtered = products.filter(p => p.category === category);
-            
-            if(filtered.length === 0) {
-                 grid.innerHTML = '<div class="col-span-full text-center py-20 font-bold opacity-50">EMPTY ARCHIVE</div>';
-            } else {
-                filtered.forEach(p => {
-                    grid.innerHTML += renderCardHTML(p);
-                });
-            }
-
+            if(filtered.length === 0) { grid.innerHTML = '<div class="col-span-full text-center py-20 font-bold opacity-50">EMPTY ARCHIVE</div>'; } 
+            else { filtered.forEach(p => grid.innerHTML += renderCardHTML(p)); }
             document.getElementById('category-modal').classList.add('open');
         }
+        function closeCategoryModal() { document.getElementById('category-modal').classList.remove('open'); }
 
-        function closeCategoryModal() {
-            document.getElementById('category-modal').classList.remove('open');
-        }
-
-        // --- CART & PURCHASE LOGIC ---
-        let cart = [];
+        // --- INTERACTIVE SIZING LOGIC ---
         const prodModal = document.getElementById('product-modal');
         const modalTitle = document.getElementById('modal-item-title');
         const modalPrice = document.getElementById('modal-item-price');
-        const cartDrawer = document.getElementById('cart-drawer');
-        const toast = document.getElementById('toast');
-        const toastMsg = document.getElementById('toast-msg');
+        const modalPriceDisplay = document.getElementById('modal-item-price-display');
+        const modalDesc = document.getElementById('modal-item-desc');
+        const tableBody = document.getElementById('size-table-body');
+        const inputChest = document.getElementById('input-chest');
+        const inputLength = document.getElementById('input-length');
+        const inputSleeve = document.getElementById('input-sleeve');
+        const selectedSizeLabel = document.getElementById('selected-size-label');
 
         function triggerAdd(id) {
             const product = products.find(p => p.id === id);
             if(!product) return;
-            
             modalTitle.innerText = product.name;
             modalPrice.value = product.price;
+            modalPriceDisplay.innerText = `৳ ${product.price}`;
+            modalDesc.innerText = product.description || "No additional information.";
+            
+            // Reset sizing
+            currentGender = 'male';
+            switchSizeTab('male');
+            clearMeasurements();
+            
             prodModal.classList.add('open');
         }
 
+        function switchSizeTab(gender) {
+            currentGender = gender;
+            // Update Tab Styles
+            document.getElementById('tab-male').className = gender === 'male' ? "flex-1 py-3 font-bold bg-black text-white text-sm md:text-base uppercase transition-colors" : "flex-1 py-3 font-bold bg-[#e6e6e1] text-black hover:bg-gray-200 text-sm md:text-base uppercase transition-colors";
+            document.getElementById('tab-female').className = gender === 'female' ? "flex-1 py-3 font-bold bg-black text-white text-sm md:text-base uppercase transition-colors" : "flex-1 py-3 font-bold bg-[#e6e6e1] text-black hover:bg-gray-200 text-sm md:text-base uppercase transition-colors";
+            
+            renderSizeTable();
+        }
+
+        function renderSizeTable() {
+            const data = sizeCharts[currentGender];
+            tableBody.innerHTML = '';
+            data.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'size-table-row border-b border-gray-300';
+                tr.onclick = () => selectSize(index, row);
+                tr.innerHTML = `
+                    <td class="p-2 border-r border-gray-300">${row.label}</td>
+                    <td class="p-2 border-r border-gray-300">${row.chest}</td>
+                    <td class="p-2 border-r border-gray-300">${row.length}</td>
+                    <td class="p-2">${row.sleeve}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function selectSize(index, row) {
+            // Highlight Row
+            const rows = tableBody.querySelectorAll('tr');
+            rows.forEach(r => r.classList.remove('selected'));
+            rows[index].classList.add('selected');
+
+            // Fill Inputs
+            inputChest.value = row.chest;
+            inputLength.value = row.length;
+            inputSleeve.value = row.sleeve;
+
+            // Set Label
+            currentSizeSelection = `${currentGender.toUpperCase()} - ${row.label}`;
+            selectedSizeLabel.innerText = `Selected: ${currentSizeSelection}`;
+            selectedSizeLabel.style.color = "green";
+            selectedSizeLabel.style.fontWeight = "bold";
+        }
+
+        function deselectRows() {
+            const rows = tableBody.querySelectorAll('tr');
+            rows.forEach(r => r.classList.remove('selected'));
+            currentSizeSelection = "CUSTOM";
+            selectedSizeLabel.innerText = "Custom Dimensions";
+            selectedSizeLabel.style.color = "#ff2a00";
+        }
+
+        function clearMeasurements() {
+            inputChest.value = "";
+            inputLength.value = "";
+            inputSleeve.value = "";
+            deselectRows();
+            currentSizeSelection = null;
+            selectedSizeLabel.innerText = "Select a size above or type custom values.";
+            selectedSizeLabel.style.color = "inherit";
+        }
+
+        function closeProductModal() { prodModal.classList.remove('open'); }
+
+        // --- CART LOGIC ---
+        let cart = [];
+        const cartDrawer = document.getElementById('cart-drawer');
+        const toast = document.getElementById('toast');
+        const toastMsg = document.getElementById('toast-msg');
+
         function addToCartFromModal(e) {
             e.preventDefault();
-            const size = document.getElementById('input-size').value;
             const name = modalTitle.innerText;
             const price = modalPrice.value;
+            const chest = inputChest.value;
+            const len = inputLength.value;
+            const sleeve = inputSleeve.value;
 
-            cart.push({ name, size, price });
+            // Construct detail string
+            let sizeDetails = "";
+            if (currentSizeSelection && currentSizeSelection !== "CUSTOM") {
+                sizeDetails = `${currentSizeSelection} [Ch:${chest}", L:${len}", Sl:${sleeve}"]`;
+            } else {
+                sizeDetails = `CUSTOM [Ch:${chest}", L:${len}", Sl:${sleeve}"]`;
+            }
+
+            cart.push({ name, size: sizeDetails, price });
             closeProductModal();
             updateCartUI();
             showToast("ADDED TO CART");
-            
-            // If inside manifesto flow, maybe don't auto open cart? 
-            // For now, let's auto open cart as positive feedback
             toggleCart(); 
-        }
-
-        function closeProductModal() {
-            prodModal.classList.remove('open');
         }
 
         function updateCartUI() {
             const countText = `CART(${cart.length})`;
             document.querySelectorAll('#cart-btn, .md\\:hidden').forEach(el => el.innerText = countText);
-
             const container = document.getElementById('cart-items');
             const totalEl = document.getElementById('cart-total');
             
@@ -792,7 +791,7 @@
                 total += parseInt(item.price);
                 html += `
                     <div class="flex justify-between items-center border-b border-black pb-2 mb-2">
-                        <div><p class="font-bold text-sm">${item.name}</p><p class="text-xs text-gray-600">SIZE: ${item.size}</p></div>
+                        <div><p class="font-bold text-sm">${item.name}</p><p class="text-[10px] text-gray-600 font-mono">${item.size}</p></div>
                         <div class="text-right"><p class="font-bold text-sm">৳ ${item.price}</p><button onclick="removeFromCart(${index})" class="text-xs text-[#ff2a00] font-bold hover:underline">REMOVE</button></div>
                     </div>`;
             });
@@ -800,19 +799,12 @@
             totalEl.innerText = `৳ ${total}`;
         }
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartUI();
-        }
-
-        function toggleCart() {
-            cartDrawer.classList.toggle('open');
-        }
+        function removeFromCart(index) { cart.splice(index, 1); updateCartUI(); }
+        function toggleCart() { cartDrawer.classList.toggle('open'); }
 
         function checkoutWhatsApp(e) {
             e.preventDefault();
             if (cart.length === 0) { showToast("CART IS EMPTY", true); return; }
-
             const name = document.getElementById('checkout-name').value;
             const phone = document.getElementById('checkout-phone').value;
             const address = document.getElementById('checkout-address').value;
@@ -820,16 +812,15 @@
             let itemList = "";
             let total = 0;
             cart.forEach(item => {
-                itemList += `• ${item.name} [${item.size}] - ৳${item.price}%0A`;
+                itemList += `• ${item.name} (%0A  ${item.size}) - ৳${item.price}%0A`;
                 total += parseInt(item.price);
             });
 
             const message = `*NOYABANGLA ORDER REQUEST*%0A---------------------------%0A*CUSTOMER DETAILS*%0ANAME: ${name}%0APHONE: ${phone}%0AADDRESS: ${address}%0A---------------------------%0A*ORDER ITEMS*%0A${itemList}---------------------------%0A*TOTAL: ৳ ${total}*%0A---------------------------%0A_Please confirm availability._`;
-            const phoneNumber = "8801700000000"; 
+            const phoneNumber = "8801845647482"; 
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             const baseUrl = isMobile ? 'https://api.whatsapp.com/send' : 'https://web.whatsapp.com/send';
             const safeUrl = `${baseUrl}?phone=${phoneNumber}&text=${message}`;
-
             window.open(safeUrl, '_blank');
         }
 
@@ -840,12 +831,10 @@
             setTimeout(() => { toast.style.transform = 'translateY(200%)'; }, 2000);
         }
 
-        // Close overlays on click
         document.querySelectorAll('.modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
         });
         
-        // --- PARALLAX & CURSOR ---
         const cursor = document.getElementById('cursor');
         const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         if (!isTouchDevice) { document.addEventListener('mousemove', (e) => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; }); }
