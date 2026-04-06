@@ -129,29 +129,6 @@
             transition: transform 0.1s cubic-bezier(0,0,0.2,1);
         }
 
-        /* --- PATTERNS --- */
-        .pattern-gamcha {
-            background-color: #ff2a00;
-            background-image: 
-                linear-gradient(90deg, rgba(0,0,0,.5) 50%, transparent 50%),
-                linear-gradient(rgba(0,0,0,.5) 50%, transparent 50%);
-            background-size: 20px 20px;
-        }
-
-        .pattern-jamdani {
-            background-color: #ffffff;
-            background-image:  radial-gradient(#000000 2px, transparent 2.5px), radial-gradient(#000000 2px, transparent 2.5px);
-            background-size: 30px 30px;
-            background-position: 0 0, 15px 15px;
-        }
-
-        .pattern-noise {
-            background-color: #1a1a1a;
-            background-image: repeating-linear-gradient(45deg, #2b2b2b 25%, transparent 25%, transparent 75%, #2b2b2b 75%, #2b2b2b), repeating-linear-gradient(45deg, #2b2b2b 25%, #1a1a1a 25%, #1a1a1a 75%, #2b2b2b 75%, #2b2b2b);
-            background-position: 0 0, 10px 10px;
-            background-size: 20px 20px;
-        }
-
         /* --- MARQUEE --- */
         .marquee-wrapper {
             width: 100%;
@@ -306,6 +283,11 @@
             color: white;
             font-weight: bold;
         }
+        
+        /* Disable hover on carousel buttons to keep it touch-friendly */
+        @media (hover: none) {
+            .carousel-btn:hover { background: #e6e6e1; color: black; }
+        }
     </style>
 </head>
 <body>
@@ -368,10 +350,8 @@
                 <!-- Tops -->
                 <div class="category-card" onclick="openCategoryModal('tops', 'ধড়')">
                     <div class="w-full aspect-[3/4] relative">
-                        <div class="dummy-image absolute inset-0">
-                            <span class="font-mono text-xs opacity-50">IMG_TOPS.JPG</span>
-                        </div>
-                        <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-4 bg-black/30 hover:bg-black/40 transition-colors">
+                        <img src="gamcha_kaftan1.JPG" class="absolute inset-0 w-full h-full object-cover opacity-80" alt="Tops">
+                        <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-4 bg-black/40 hover:bg-black/50 transition-colors">
                             <span class="block text-5xl md:text-7xl font-bengali font-bold mb-2 text-white">ধড়</span>
                             <span class="block text-xs font-bold uppercase tracking-[0.3em] border-t border-white pt-2 w-1/2 mx-auto text-white">[ TOPS ]</span>
                         </div>
@@ -382,7 +362,7 @@
                 <div class="category-card" onclick="openCategoryModal('bottoms', 'নীচে')">
                     <div class="w-full aspect-[3/4] relative">
                         <div class="dummy-image absolute inset-0">
-                            <span class="font-mono text-xs opacity-50">IMG_BOTTOMS.JPG</span>
+                            <span class="font-mono text-xs opacity-50">ARCHIVE EMPTY</span>
                         </div>
                         <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-4 bg-black/30 hover:bg-black/40 transition-colors">
                             <span class="block text-5xl md:text-7xl font-bengali font-bold mb-2 text-white">নীচে</span>
@@ -394,10 +374,8 @@
                 <!-- Accessories -->
                 <div class="category-card" onclick="openCategoryModal('accessories', 'আনুষাঙ্গিক')">
                     <div class="w-full aspect-[3/4] relative">
-                        <div class="dummy-image absolute inset-0">
-                            <span class="font-mono text-xs opacity-50">IMG_ACC.JPG</span>
-                        </div>
-                        <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-4 bg-black/30 hover:bg-black/40 transition-colors">
+                        <img src="tepa_locket1.JPG" class="absolute inset-0 w-full h-full object-cover opacity-80" alt="Accessories">
+                        <div class="absolute inset-0 z-10 flex flex-col justify-center items-center text-center p-4 bg-black/40 hover:bg-black/50 transition-colors">
                             <span class="block text-5xl md:text-7xl font-bengali font-bold mb-2 text-white">আনুষাঙ্গিক</span>
                             <span class="block text-xs font-bold uppercase tracking-[0.3em] border-t border-white pt-2 w-1/2 mx-auto text-white">[ ACCESSORIES ]</span>
                         </div>
@@ -411,7 +389,7 @@
     <section id="catalog" class="py-16 md:py-24 px-4 relative overflow-hidden">
         <div class="flex flex-col md:flex-row justify-between items-end mb-8 md:mb-12 border-b-2 border-black pb-4">
             <h2 class="text-4xl md:text-7xl font-black break-words w-full">ARCHIVE_01</h2>
-            <span class="text-xl font-bold mt-2 md:mt-0">[ 2025 ]</span>
+            <span class="text-xl font-bold mt-2 md:mt-0">[ 2026 ]</span>
         </div>
 
         <div class="flex gap-4 mb-8 md:mb-12 overflow-x-auto pb-4 touch-pan-x">
@@ -445,7 +423,7 @@
         </div>
     </div>
 
-    <!-- PRODUCT DETAIL MODAL (NEW INTERACTIVE SIZING) -->
+    <!-- PRODUCT DETAIL MODAL (NEW INTERACTIVE SIZING & CAROUSEL) -->
     <div id="product-modal" class="modal-overlay">
         <div class="bg-[#e6e6e1] p-4 md:p-8 max-w-lg w-11/12 brutal-border brutal-shadow relative max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-start mb-4 border-b-2 border-black pb-2">
@@ -454,6 +432,22 @@
                     <p class="text-sm font-bold mt-1" id="modal-item-price-display">৳ 000</p>
                 </div>
                 <button onclick="closeProductModal()" class="text-2xl font-bold hover:text-[#ff2a00] leading-none">&times;</button>
+            </div>
+
+            <!-- CAROUSEL -->
+            <div class="relative w-full aspect-square mb-6 border-2 border-black bg-white overflow-hidden group">
+                <img id="modal-carousel-img" src="" class="w-full h-full object-cover" alt="Product Image">
+                
+                <button id="carousel-prev" onclick="prevImage(event)" class="carousel-btn absolute left-2 top-1/2 -translate-y-1/2 bg-[#e6e6e1] border-2 border-black p-2 hover:bg-[#ff2a00] hover:text-white transition-colors brutal-shadow">
+                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                
+                <button id="carousel-next" onclick="nextImage(event)" class="carousel-btn absolute right-2 top-1/2 -translate-y-1/2 bg-[#e6e6e1] border-2 border-black p-2 hover:bg-[#ff2a00] hover:text-white transition-colors brutal-shadow">
+                    <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+                
+                <!-- Dots -->
+                <div id="carousel-dots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2"></div>
             </div>
 
             <!-- Description -->
@@ -560,15 +554,42 @@
     </div>
 
     <script>
-        // --- PRODUCT DATA ---
+        // --- NEW PRODUCT DATA ---
+        // Added the specific images requested, updated to uppercase .JPG to match your file system.
         const products = [
-            { id: 1, name: "GAMCHA BLAZER V1", bnSub: "লাল গামছা সংস্করণ", price: 4500, category: "tops", inStock: true, description: "A structured blazer constructed from hand-loomed red Gamcha fabric. Features reinforced stitching.", visualClass: "pattern-gamcha", visualExtra: "", bgClass: "opacity-90", badge: "BESTSELLER" },
-            { id: 2, name: "JAMDANI CROP", bnSub: "সাদা মোটিফ", price: 3200, category: "tops", inStock: true, description: "Traditional Jamdani weave reimagined as a modern crop top. Breathable cotton base.", visualClass: "pattern-jamdani", visualExtra: '<div class="absolute bottom-0 w-full h-1/2 bg-black mix-blend-multiply clip-path-polygon"></div>', bgClass: "", badge: "" },
-            { id: 3, name: "NOYA HOODIE", bnSub: "Heavyweight Cotton", price: 2800, category: "tops", inStock: false, description: "400GSM heavyweight cotton hoodie. Puff-print Bengali typography.", visualClass: "", visualExtra: '<div class="absolute inset-0 bg-[#1a1a1a]"></div><div class="absolute inset-4 pattern-noise border border-white/20"></div><div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[#ff2a00] text-4xl md:text-9xl font-black opacity-50 font-bengali">ক</div>', bgClass: "", badge: "" },
-            { id: 4, name: "TIGER EYE TOTE", bnSub: "Canvas Structure", price: 1200, category: "accessories", inStock: true, description: "Heavy canvas tote bag with abstract 'Tiger Eye' graphic.", visualClass: "", visualExtra: '<div class="absolute inset-0 bg-[#ff2a00]"></div><div class="absolute w-full h-full flex items-center justify-center"><div class="w-16 h-16 md:w-32 md:h-32 border-4 border-black rounded-full"></div><div class="absolute w-8 h-8 md:w-20 md:h-20 bg-black rounded-full"></div></div>', bgClass: "", badge: "" },
-            { id: 5, name: "GAMCHA BLAZER V2", bnSub: "সবুজ সংস্করণ", price: 4500, category: "tops", inStock: false, description: "The green iteration of our signature Gamcha Blazer. Earthy tones meet sharp tailoring.", visualClass: "pattern-gamcha", visualExtra: "", bgClass: "opacity-90 filter hue-rotate-90", badge: "" },
-            { id: 6, name: "THE FLAG SCARF", bnSub: "Silk Blend", price: 1800, category: "accessories", inStock: true, description: "Silk-blend scarf featuring deconstructed flag elements.", visualClass: "", visualExtra: '<div class="absolute inset-0 flex flex-col"><div class="h-1/3 bg-black w-full border-b-2 border-white"></div><div class="h-1/3 bg-[#ff2a00] w-full border-b-2 border-white"></div><div class="h-1/3 bg-[#e6e6e1] w-full"></div></div><div class="absolute inset-0 flex items-center justify-center font-bengali text-2xl md:text-6xl font-bold text-white mix-blend-difference">বাংলা</div>', bgClass: "", badge: "" },
-            { id: 7, name: "LUNGI TROUSERS", bnSub: "Street Check", price: 2500, category: "bottoms", inStock: true, description: "Relaxed fit trousers made from authentic Lungi fabric.", visualClass: "pattern-gamcha", visualExtra: "", bgClass: "filter hue-rotate-180", badge: "NEW" }
+            { 
+                id: 1, 
+                name: "GAMCHA KAFTAN", 
+                bnSub: "গামছা কাফতান", 
+                price: 800, 
+                category: "tops", 
+                inStock: true, 
+                description: "Authentic handloom Gamcha transformed into a flowing Kaftan. Perfect blend of heritage and comfort.", 
+                images: ["gamcha_kaftan1.JPG", "gamcha_kaftan2.JPG", "gamcha_kaftan3.JPG", "gamcha_kaftan4.JPG"], 
+                badge: "NEW" 
+            },
+            { 
+                id: 2, 
+                name: "UNISEX GAMCHA FATUA", 
+                bnSub: "গামছা ফতুয়া", 
+                price: 650, 
+                category: "tops", 
+                inStock: true, 
+                description: "Classic unisex Fatua crafted from breathable Gamcha fabric. Boxy fit, brutalist cut.", 
+                images: ["gamcha_fatua1.JPG","gamcha_fatua2.JPG","gamcha_fatua3.JPG"], 
+                badge: "BESTSELLER" 
+            },
+            { 
+                id: 3, 
+                name: "TEPA PUTULER LOCKET", 
+                bnSub: "টেপা পুতুলের লকেট", 
+                price: 500, 
+                category: "accessories", 
+                inStock: true, 
+                description: "Terracotta Tepa Putul motif locket. A piece of Bengali folk art around your neck.", 
+                images: ["tepa_locket1.JPG"], 
+                badge: "" 
+            }
         ];
 
         // --- SIZE DATA ---
@@ -588,7 +609,7 @@
         };
 
         let currentGender = 'male';
-        let currentSizeSelection = null; // Store selected size e.g. "MALE - M"
+        let currentSizeSelection = null; 
 
         // --- RENDER FUNCTIONS ---
         function renderCardHTML(product) {
@@ -597,7 +618,7 @@
                 : `<p class="text-[10px] font-bold text-[#ff2a00] mt-1">X SOLD OUT</p>`;
             
             const btnHTML = product.inStock
-                ? `<button class="text-[10px] md:text-xs underline hover:text-[#ff2a00] font-bold add-to-cart text-left">ADD +</button>`
+                ? `<button class="text-[10px] md:text-xs underline hover:text-[#ff2a00] font-bold add-to-cart text-left">VIEW +</button>`
                 : `<button class="text-[10px] md:text-xs underline cursor-not-allowed font-bold text-left opacity-50">SOLD OUT</button>`;
 
             const soldOutOverlay = !product.inStock 
@@ -607,11 +628,15 @@
             const badgeHTML = product.badge ? `<div class="absolute top-4 left-4 bg-black text-white text-[10px] md:text-xs px-2 py-1 font-bold z-10">${product.badge}</div>` : '';
             const titleClass = !product.inStock ? "line-through opacity-50" : "";
             
+            // Get first image
+            const bgImg = product.images && product.images.length > 0 ? product.images[0] : '';
+            
             return `
             <div class="group relative block cursor-pointer" onclick="triggerAdd(${product.id})" onmouseenter="cursorScale()" onmouseleave="cursorReset()">
-                <div class="border-2 border-black bg-white aspect-[4/5] relative overflow-hidden brutal-shadow transition-transform group-hover:-translate-y-2">
-                    <div class="absolute inset-4 ${product.visualClass} border-2 border-black ${product.bgClass}"></div>
-                    ${product.visualExtra}
+                <div class="border-2 border-black bg-[#e6e6e1] aspect-[4/5] relative overflow-hidden brutal-shadow transition-transform group-hover:-translate-y-2">
+                    <div class="absolute inset-4 overflow-hidden border-2 border-black">
+                        <img src="${bgImg}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="${product.name}">
+                    </div>
                     ${badgeHTML}
                     ${soldOutOverlay}
                 </div>
@@ -652,7 +677,7 @@
         }
         function closeCategoryModal() { document.getElementById('category-modal').classList.remove('open'); }
 
-        // --- INTERACTIVE SIZING LOGIC ---
+        // --- INTERACTIVE SIZING & CAROUSEL LOGIC ---
         const prodModal = document.getElementById('product-modal');
         const modalTitle = document.getElementById('modal-item-title');
         const modalPrice = document.getElementById('modal-item-price');
@@ -664,6 +689,9 @@
         const inputSleeve = document.getElementById('input-sleeve');
         const selectedSizeLabel = document.getElementById('selected-size-label');
 
+        let carouselImages = [];
+        let carouselIndex = 0;
+
         function triggerAdd(id) {
             const product = products.find(p => p.id === id);
             if(!product) return;
@@ -672,6 +700,11 @@
             modalPriceDisplay.innerText = `৳ ${product.price}`;
             modalDesc.innerText = product.description || "No additional information.";
             
+            // Setup Carousel
+            carouselImages = product.images || [];
+            carouselIndex = 0;
+            updateCarousel();
+
             // Reset sizing
             currentGender = 'male';
             switchSizeTab('male');
@@ -680,9 +713,52 @@
             prodModal.classList.add('open');
         }
 
+        // --- CAROUSEL FUNCTIONS ---
+        function updateCarousel() {
+            const imgEl = document.getElementById('modal-carousel-img');
+            const prevBtn = document.getElementById('carousel-prev');
+            const nextBtn = document.getElementById('carousel-next');
+            const dotsContainer = document.getElementById('carousel-dots');
+
+            if (carouselImages.length === 0) {
+                imgEl.src = '';
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                dotsContainer.innerHTML = '';
+                return;
+            }
+
+            imgEl.src = carouselImages[carouselIndex];
+
+            // Only show arrows & dots if more than 1 image exists
+            if (carouselImages.length > 1) {
+                prevBtn.style.display = 'block';
+                nextBtn.style.display = 'block';
+                dotsContainer.innerHTML = carouselImages.map((_, i) =>
+                    `<div class="w-2.5 h-2.5 md:w-3 md:h-3 border-2 border-black rounded-full ${i === carouselIndex ? 'bg-[#ff2a00]' : 'bg-white'}"></div>`
+                ).join('');
+            } else {
+                prevBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+                dotsContainer.innerHTML = '';
+            }
+        }
+
+        function prevImage(e) {
+            e.preventDefault();
+            carouselIndex = (carouselIndex - 1 + carouselImages.length) % carouselImages.length;
+            updateCarousel();
+        }
+
+        function nextImage(e) {
+            e.preventDefault();
+            carouselIndex = (carouselIndex + 1) % carouselImages.length;
+            updateCarousel();
+        }
+
+        // --- SIZING FUNCTIONS ---
         function switchSizeTab(gender) {
             currentGender = gender;
-            // Update Tab Styles
             document.getElementById('tab-male').className = gender === 'male' ? "flex-1 py-3 font-bold bg-black text-white text-sm md:text-base uppercase transition-colors" : "flex-1 py-3 font-bold bg-[#e6e6e1] text-black hover:bg-gray-200 text-sm md:text-base uppercase transition-colors";
             document.getElementById('tab-female').className = gender === 'female' ? "flex-1 py-3 font-bold bg-black text-white text-sm md:text-base uppercase transition-colors" : "flex-1 py-3 font-bold bg-[#e6e6e1] text-black hover:bg-gray-200 text-sm md:text-base uppercase transition-colors";
             
@@ -707,17 +783,14 @@
         }
 
         function selectSize(index, row) {
-            // Highlight Row
             const rows = tableBody.querySelectorAll('tr');
             rows.forEach(r => r.classList.remove('selected'));
             rows[index].classList.add('selected');
 
-            // Fill Inputs
             inputChest.value = row.chest;
             inputLength.value = row.length;
             inputSleeve.value = row.sleeve;
 
-            // Set Label
             currentSizeSelection = `${currentGender.toUpperCase()} - ${row.label}`;
             selectedSizeLabel.innerText = `Selected: ${currentSizeSelection}`;
             selectedSizeLabel.style.color = "green";
@@ -758,7 +831,6 @@
             const len = inputLength.value;
             const sleeve = inputSleeve.value;
 
-            // Construct detail string
             let sizeDetails = "";
             if (currentSizeSelection && currentSizeSelection !== "CUSTOM") {
                 sizeDetails = `${currentSizeSelection} [Ch:${chest}", L:${len}", Sl:${sleeve}"]`;
@@ -817,7 +889,10 @@
             });
 
             const message = `*NOYABANGLA ORDER REQUEST*%0A---------------------------%0A*CUSTOMER DETAILS*%0ANAME: ${name}%0APHONE: ${phone}%0AADDRESS: ${address}%0A---------------------------%0A*ORDER ITEMS*%0A${itemList}---------------------------%0A*TOTAL: ৳ ${total}*%0A---------------------------%0A_Please confirm availability._`;
-            const phoneNumber = "8801845647482"; 
+            
+            // --- UPDATED WHATSAPP NUMBER HERE ---
+            const phoneNumber = "8801300806745"; 
+            
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             const baseUrl = isMobile ? 'https://api.whatsapp.com/send' : 'https://web.whatsapp.com/send';
             const safeUrl = `${baseUrl}?phone=${phoneNumber}&text=${message}`;
