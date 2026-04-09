@@ -490,34 +490,34 @@
                 Loading...
             </div>
 
-            <!-- TAB SWITCHER -->
-            <div class="flex border-2 border-black mb-4">
-                <button id="tab-male" class="flex-1 py-3 font-bold bg-black text-white text-sm md:text-base uppercase transition-colors" onclick="switchSizeTab('male')">MALE CHART</button>
-                <button id="tab-female" class="flex-1 py-3 font-bold bg-[#e6e6e1] text-black hover:bg-gray-200 text-sm md:text-base uppercase transition-colors" onclick="switchSizeTab('female')">FEMALE CHART</button>
-            </div>
-
-            <!-- SIZE TABLES (Scrollable) -->
-            <div class="border-2 border-black mb-6 bg-white overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-xs md:text-sm text-center font-bold">
-                        <thead class="bg-black text-white">
-                            <tr>
-                                <th class="p-2 border-r border-white">SIZE</th>
-                                <th class="p-2 border-r border-white">CHEST</th>
-                                <th class="p-2 border-r border-white">LENGTH</th>
-                                <th class="p-2">SLEEVE</th>
-                            </tr>
-                        </thead>
-                        <tbody id="size-table-body">
-                            <!-- Rows injected via JS -->
-                        </tbody>
-                    </table>
+            <!-- SIZING AREA (WRAPPER FOR TOGGLING) -->
+            <div id="modal-sizing-area">
+                <!-- TAB SWITCHER -->
+                <div class="flex border-2 border-black mb-4">
+                    <button id="tab-male" class="flex-1 py-3 font-bold bg-black text-white text-sm md:text-base uppercase transition-colors" onclick="switchSizeTab('male')">MALE CHART</button>
+                    <button id="tab-female" class="flex-1 py-3 font-bold bg-[#e6e6e1] text-black hover:bg-gray-200 text-sm md:text-base uppercase transition-colors" onclick="switchSizeTab('female')">FEMALE CHART</button>
                 </div>
-            </div>
 
-            <!-- CUSTOM INPUTS -->
-            <form onsubmit="addToCartFromModal(event)">
-                <input type="hidden" id="modal-item-price">
+                <!-- SIZE TABLES (Scrollable) -->
+                <div class="border-2 border-black mb-6 bg-white overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs md:text-sm text-center font-bold">
+                            <thead class="bg-black text-white">
+                                <tr>
+                                    <th class="p-2 border-r border-white">SIZE</th>
+                                    <th class="p-2 border-r border-white">CHEST</th>
+                                    <th class="p-2 border-r border-white">LENGTH</th>
+                                    <th class="p-2">SLEEVE</th>
+                                </tr>
+                            </thead>
+                            <tbody id="size-table-body">
+                                <!-- Rows injected via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CUSTOM INPUTS -->
                 <div class="mb-6">
                     <div class="flex justify-between items-center mb-2">
                         <label class="text-xs font-bold uppercase underline">YOUR MEASUREMENTS (IN)</label>
@@ -539,7 +539,10 @@
                     </div>
                     <p class="text-[10px] opacity-50 mt-2 text-center" id="selected-size-label">Select a size above or type custom values.</p>
                 </div>
+            </div>
 
+            <form onsubmit="addToCartFromModal(event)">
+                <input type="hidden" id="modal-item-price">
                 <div class="flex gap-4 mt-4">
                     <button type="button" onclick="closeProductModal()" class="flex-1 border-2 border-black py-3 font-bold hover:bg-black hover:text-white transition-colors text-xs md:text-base">CANCEL</button>
                     <button type="submit" class="flex-1 bg-[#ff2a00] border-2 border-black text-white py-3 font-bold hover:bg-black hover:text-white transition-colors brutal-shadow text-xs md:text-base">ADD TO CART</button>
@@ -721,6 +724,7 @@
         const inputLength = document.getElementById('input-length');
         const inputSleeve = document.getElementById('input-sleeve');
         const selectedSizeLabel = document.getElementById('selected-size-label');
+        const sizingArea = document.getElementById('modal-sizing-area');
 
         let carouselImages = [];
         let carouselIndex = 0;
@@ -728,6 +732,7 @@
         function triggerAdd(id) {
             const product = products.find(p => p.id === id);
             if(!product) return;
+            
             modalTitle.innerText = product.name;
             modalPrice.value = product.price;
             modalPriceDisplay.innerText = `৳ ${product.price}`;
@@ -735,8 +740,25 @@
             carouselImages = product.images || [];
             carouselIndex = 0;
             updateCarousel();
-            currentGender = 'male';
-            switchSizeTab('male');
+            
+            // LOGIC: CATEGORY-WISE SIZE VISIBILITY
+            if (product.category === 'accessories') {
+                sizingArea.style.display = 'none';
+                inputChest.required = false;
+                inputLength.required = false;
+                inputSleeve.required = false;
+            } else {
+                sizingArea.style.display = 'block';
+                inputChest.required = true;
+                inputLength.required = true;
+                inputSleeve.required = true;
+                currentGender = 'male';
+                switchSizeTab('male');
+            }
+            
+            // Store category for cart usage
+            prodModal.setAttribute('data-category', product.category);
+
             clearMeasurements();
             prodModal.classList.add('open');
         }
@@ -855,12 +877,22 @@
             e.preventDefault();
             const name = modalTitle.innerText;
             const price = modalPrice.value;
-            const chest = inputChest.value;
-            const len = inputLength.value;
-            const sleeve = inputSleeve.value;
-            let sizeDetails = (currentSizeSelection && currentSizeSelection !== "CUSTOM") 
-                ? `${currentSizeSelection} [Ch:${chest}", L:${len}", Sl:${sleeve}"]`
-                : `CUSTOM [Ch:${chest}", L:${len}", Sl:${sleeve}"]`;
+            const category = prodModal.getAttribute('data-category');
+            
+            let sizeDetails = "";
+            
+            // LOGIC: CATEGORY-WISE CART LABELING
+            if (category === 'accessories') {
+                sizeDetails = "STANDARD SIZE";
+            } else {
+                const chest = inputChest.value;
+                const len = inputLength.value;
+                const sleeve = inputSleeve.value;
+                sizeDetails = (currentSizeSelection && currentSizeSelection !== "CUSTOM") 
+                    ? `${currentSizeSelection} [Ch:${chest}", L:${len}", Sl:${sleeve}"]`
+                    : `CUSTOM [Ch:${chest}", L:${len}", Sl:${sleeve}"]`;
+            }
+
             cart.push({ name, size: sizeDetails, price });
             closeProductModal();
             updateCartUI();
@@ -906,7 +938,7 @@
             let itemList = "";
             let total = 0;
             cart.forEach(item => {
-                itemList += `• ${item.name} (%0A  ${item.size}) - ৳${item.price}%0A`;
+                itemList += `• ${item.name} (${item.size}) - ৳${item.price}%0A`;
                 total += parseInt(item.price);
             });
             const message = `*NOYABANGLA ORDER REQUEST*%0A---------------------------%0A*CUSTOMER DETAILS*%0ANAME: ${name}%0APHONE: ${phone}%0AADDRESS: ${address}%0A---------------------------%0A*ORDER ITEMS*%0A${itemList}---------------------------%0A*TOTAL: ৳ ${total}*%0A---------------------------%0A_Please confirm availability._`;
