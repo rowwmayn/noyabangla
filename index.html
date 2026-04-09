@@ -30,6 +30,11 @@
             margin: 0;
             padding: 0;
             scroll-behavior: smooth;
+            /* Prevent text selection to aid in protection */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
 
         /* --- CUSTOM CURSOR --- */
@@ -322,7 +327,7 @@
         }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <!-- Custom Cursor -->
     <div class="cursor" id="cursor"></div>
@@ -977,6 +982,33 @@
         }
         window.addEventListener('scroll', () => { if (!ticking) { window.requestAnimationFrame(updateParallax); ticking = true; } });
         updateParallax();
+
+        // --- NEW FEATURES: PROTECTION LOGIC ---
+        
+        // 1. Right Click Protection
+        document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            showToast("RIGHT CLICK PROTECTED", true);
+        });
+
+        // 2. Inspect Protection (Shortcut blocking)
+        document.addEventListener('keydown', (e) => {
+            // Block F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                showToast("DEV TOOLS DISABLED", true);
+            }
+            // Block Ctrl+Shift+I (Inspect), Ctrl+Shift+J (Console), Ctrl+Shift+C (Elements)
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C' || e.key === 'i' || e.key === 'j' || e.key === 'c')) {
+                e.preventDefault();
+                showToast("INSPECT PROTECTED", true);
+            }
+            // Block Ctrl+U (View Source)
+            if ((e.ctrlKey || e.metaKey) && (e.key === 'U' || e.key === 'u')) {
+                e.preventDefault();
+                showToast("SOURCE VIEW DISABLED", true);
+            }
+        });
     </script>
 </body>
 </html>
